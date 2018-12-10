@@ -1,5 +1,7 @@
-function UsuariosDAO(connection) {
+function UsuariosDAO(connection, req, res) {
 this._connection = connection;
+t1 = req;
+t2 = res;
 }
 UsuariosDAO.prototype.inserirUsuario = function(usuario, res) {
 var dados = {
@@ -21,7 +23,7 @@ collection: "usuarios",
 callback: function(err, result) {
 }
 };
-this._connection(dados, req, res);
+this._connection(dados, t1, t2);
 };
 
 module.exports = function() {

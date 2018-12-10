@@ -5,16 +5,16 @@ var assert = require("assert");
 const url = "mongodb://localhost:27017";
 const dbName = "got";
 
-var connMongoDB = function(dados) {
+var connMongoDB = function(dados, req, res) {
 mongo.connect(url, { useNewUrlParser: true }, function(err, client) {
 assert.equal(null, err);
 console.log("Connected successfully to server");
 const db = client.db(dbName);
-query(db, dados);
+query(db, dados, req, res);
 client.close();
 });
 };
-function query(db, dados, usuarioda, req, res) {
+function query(db, dados, req, res) {
 var collection = db.collection(dados.collection);
 switch (dados.operacao) {
 case "inserir":
@@ -23,16 +23,18 @@ break;
 case "pesquisa":
 collection.find(dados.usuario).toArray(function(err, result){
 
-	if(result[0] != undefined){
+	console.log(result);
+	 if(result[0] != undefined){
 
 		req.session.autorizado = true;
+		console.log('entrou');
 
 	}
-	//if (req.session.autorizado){
-	//	res.send('Usuario encontrado no banco de dados');		
-	//}else {
-	//	res.send('Usuario não existe.');
-	//}
+	if (req.session.autorizado){
+		res.send('Usuario encontrado no banco de dados');		
+	}else {
+		res.send('Usuario não existe.');
+	}
 
 });
 break;

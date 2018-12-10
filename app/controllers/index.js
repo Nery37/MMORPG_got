@@ -20,9 +20,9 @@ module.exports.autenticar = function (application, req, res){
 		}
 
 		var connection = application.config.dbConnection; 
-		var UsuariosDAO = new application.app.models.UsuariosDAO(connection);
+		var UsuariosDAO = new application.app.models.UsuariosDAO(connection, req, res);
 
-		UsuariosDAO.autenticar(dadosForm, req, res);
+		UsuariosDAO.autenticar(dadosForm);
 
 
 

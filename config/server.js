@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 
 /* importar o módulo do express-session */
-var expressSession = require('express-session');
+var session = require('express-session');
 
 /* iniciar o objeto do express */
 var app = express();
@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
 
 /* configurar o middleware express-session */
-app.use(expressSession({
+app.use(session({
 	secret: 'iuashddiugfhhskadnf',
 	resave: false,
 	saveUninitialized: false
