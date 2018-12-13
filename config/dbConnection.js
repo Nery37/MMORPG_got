@@ -20,21 +20,39 @@ switch (dados.operacao) {
 case "inserir":
 collection.insertOne(dados.usuario, dados.callback);
 break;
+case "inserirEspecial":
+collection.insertOne(dados.usuariob, dados.callback);
+break;
 case "pesquisa":
 collection.find(dados.usuario).toArray(function(err, result){
 
-	console.log(result);
+	//console.log(result + "ta aqui");
 	 if(result[0] != undefined){
 
 		req.session.autorizado = true;
-		console.log('entrou');
+		req.session.usuario = result[0].usuario;
+		req.session.casa = result[0].casa;
 
 	}
 	if (req.session.autorizado){
-		res.send('Usuario encontrado no banco de dados');		
+		res.redirect("jogo");		
 	}else {
-		res.send('Usuario não existe.');
+		res.render("index", {validacao : {}});
 	}
+
+});
+break;
+case "pesquisaEspecial":
+collection.find(dados.usuarioa).toArray(function(err, result){
+
+	//console.log(result);
+	 if(result[0] != undefined){
+	 			
+	 		//console.log(result[0]);
+			res.render('jogo', {img_casa : req.session.casa, result : result[0]});
+
+	}
+
 
 });
 break;
