@@ -46,10 +46,10 @@ case "pesquisaEspecial":
 collection.find(dados.usuarioa).toArray(function(err, result){
 
 	//console.log(result);
-	 if(result[0] != undefined){
-	 			
+	 if(result[0] != undefined){ 			
+
 	 		//console.log(result[0]);
-			res.render('jogo', {img_casa : req.session.casa, result : result[0]});
+			res.render('jogo', {img_casa : req.session.casa, result : result[0], comando_invalido : dados.validaPreenche});
 
 	}
 

@@ -24,9 +24,10 @@ callback: function(err, result) {
 this._connection(dados, t1, t2);
 };
 
-JogoDAO.prototype.atribuirValores = function(dadosForm, req, res) {
+JogoDAO.prototype.atribuirValores = function(dadosForm, comando_invalido, req, res) {
 
 var dados = {
+validaPreenche: comando_invalido,
 operacao: "pesquisaEspecial",
 usuarioa: dadosForm,
 collection: "jogo",

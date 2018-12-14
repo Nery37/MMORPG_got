@@ -19,6 +19,37 @@
 				$('#btn_sair').click(function(){
 					window.location.href = '/sair';
 				});
+
+				$('#btn_suditos').click(function(){
+					//alert('BTN suditos clicado');
+					// vc ja conhece o "$('#id do botão').click(function(){
+						// oq vc quer executar qnd aquilo com esse id for clicado
+						//}"
+
+					$('#msg_erros').hide();  // isso esconde a janela de erros quando o botão´btn_suditos' é acionado novamente.	
+					$.ajax({
+						url:'/suditos',
+						method: "get",
+						success: function(data){
+							$('#acoes').html(data);
+							// eu atribui um id na div "acoes" la emb baixo e nas duas imagem suditos e pergaminhos. aqui eu posso unir views sem precisar fazer um refresh na pagina, para isso eu uso o metodo acima, no primeiro parametro eu digo em que rota está a viuw (tem que estar em uma rota) no segundo eu passo metodo da rota (no caso get) e dps, caso ele tenha sucesso, ele vai recuperar o html da viu e alocar em "data", ai eu ligo a div que eu coloquei o id "acoes" la embaixo com ela, através do "$('#acoes').html(data);" isso vai colocar a view suditos dentro da minha div e sem dar refresh na pagina.
+						}
+					})
+				});
+
+				$('#btn_pergaminho').click(function(){
+				//alert('BTN pergaminho clicado');
+				$('#msg_erros').hide();	
+				$.ajax({
+						url:'/pergaminhos',
+						method: "get",
+						success: function(data){
+							$('#acoes').html(data);
+						
+						}
+					});
+				});
+
 			});
 
 		</script>
@@ -29,6 +60,15 @@
 
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container">
+
+				<% if(comando_invalido == 'S'){ %>
+					<div class="alert alert-danger" id="msg_erros">
+						<strong>Atenção!</strong>
+						<ul>
+							<li>Preencha todos os campos</li>
+						</ul>
+					</div>
+				<% } %>
 				<div class="form-group sair">
 					<button type="button" class="btn btn-info pull-right" id="btn_sair">Sair</button>
 				</div>
@@ -70,7 +110,7 @@
 			<div class="row">
 				<div class="col-sm-3"></div>
 				<div class="col-sm-9">
-					<div class="acoes"></div>					
+					<div class="acoes" id="acoes">Senhor, o que deseja fazer hoje?</div>					
 				</div>
 			</div>
 			
@@ -81,12 +121,12 @@
 			
 				<div class="row">
 					<div class="col-sm-1">
-						<img src="images/outros/suditos.jpg" title="Aldeões" alt="Aldeões"/>
+						<img src="images/outros/suditos.jpg" title="Aldeões" alt="Aldeões" id="btn_suditos"/>
 						<span><%=result.suditos%></span>
 					</div>
 					
 					<div class="col-sm-1">
-						<img src="images/outros/pergaminho.jpg" title="Pergaminhos" alt="Pergaminhos"/>
+						<img src="images/outros/pergaminho.jpg" title="Pergaminhos" alt="Pergaminhos" id="btn_pergaminho"/>
 					</div>
 					
 					<div class="col-sm-8"></div>
