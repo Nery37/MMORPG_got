@@ -20,8 +20,25 @@ switch (dados.operacao) {
 case "inserir":
 collection.insertOne(dados.usuario, dados.callback);
 break;
+case "inserirAcao":
+collection.insertOne(dados.usuariob, dados.callback);
+break;
 case "inserirEspecial":
 collection.insertOne(dados.usuariob, dados.callback);
+break;
+case "pesquisaEspecialtwo":
+collection.find(dados.usuario).toArray(function(err, result){
+
+	//console.log(result);
+	 if(result[0] != undefined){ 	
+
+			//console.log(result[0]);
+			res.render('pergaminhos', {result : result[0]});
+
+	}
+
+
+});
 break;
 case "pesquisa":
 collection.find(dados.usuario).toArray(function(err, result){
@@ -49,7 +66,7 @@ collection.find(dados.usuarioa).toArray(function(err, result){
 	 if(result[0] != undefined){ 			
 
 	 		//console.log(result[0]);
-			res.render('jogo', {img_casa : req.session.casa, result : result[0], comando_invalido : dados.validaPreenche});
+			res.render('jogo', {img_casa : req.session.casa, result : result[0], msg : dados.validaPreenche});
 
 	}
 
