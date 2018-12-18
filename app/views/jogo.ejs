@@ -45,12 +45,31 @@
 						method: "get",
 						success: function(data){
 							$('#acoes').html(data);
+
+							clearTimeout(timerId);
+							cronometro(); 
 						
 						}
 					});
 				});
 
 			});
+
+			var timerId = null;
+
+			function cronometro(){
+				
+				$('.tempo_restante').each(function(){
+					var segundos = $(this).html();
+					var segundos_atuais = parseInt(segundos) - 1;
+					if(segundos_atuais < 0){
+						window.location.href="/jogo?msg=C";
+					}else{
+					$(this).html(segundos_atuais);
+					}
+				});
+				timerId = setTimeout('cronometro()', 1000);
+			}
 
 		</script>
 
@@ -75,6 +94,14 @@
 						<strong>Atenção!</strong>
 						<ul>
 							<li>Ação realizada com sucesso</li>
+						</ul>
+					</div>
+				<% } %>
+				<% if(msg == 'C'){ %>
+					<div class="alert alert-info" id="msg">
+						<strong>Atenção!</strong>
+						<ul>
+							<li>Senhor, a ação ordenada foi finalizada.</li>
 						</ul>
 					</div>
 				<% } %>

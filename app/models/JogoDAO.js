@@ -37,7 +37,7 @@ callback: function(err, result) {
 this._connection(dados, t1, t2);
 };
 
-JogoDAO.prototype.recuperaAcao = function(usuarioa) {
+JogoDAO.prototype.recuperaAcao = function(usuarioa, res) {
 
 var dados = {
 usuario: usuarioa,
@@ -49,22 +49,46 @@ callback: function(err, result) {
 this._connection(dados, t1, t2);
 };
 
+
+JogoDAO.prototype.updateMoedas = function(dadosForm, req, res) {
+
+
+var moedas = null;
+switch(parseInt(dadosForm.acao)){
+		case 1: moedas = -2 * dadosForm.quantidade; break;
+		case 2: moedas = -3 * dadosForm.quantidade; break;
+		case 3: moedas = -1 * dadosForm.quantidade; break;
+		case 4: moedas = -1 * dadosForm.quantidade; break;
+	}
+
+	var dados2 = {
+operacao: "update",
+moedas : moedas,
+usuariob: dadosForm,
+collection: "jogo",
+callback: function(err, result) {
+
+}
+};
+this._connection(dados2, t1, t2);
+};
+
 	
 JogoDAO.prototype.acao = function(dadosForm, req, res) {
 
-
+	var date = new Date();
 
 	var tempo = null;
 
-	switch(dadosForm.acao){
-		case 1:tempo = 1 * 60 * 60000; break;
-		case 2:tempo = 2 * 60 * 60000; break;
-		case 3:tempo = 5 * 60 * 60000; break;
-		case 4:tempo = 5 * 60 * 60000; break;
+	switch(parseInt(dadosForm.acao)){
+		case 1: tempo = 1 * 60 * 60000; break;
+		case 2: tempo = 2 * 60 * 60000; break;
+		case 3: tempo = 5 * 60 * 60000; break;
+		case 4: tempo = 5 * 60 * 60000; break;
 
 	}
 
-		var date = new Date();
+
 	dadosForm.hora = date.getTime() + tempo;
 		// gettime retorna instante atual em milisegundos
 
@@ -73,11 +97,14 @@ operacao: "inserirAcao",
 usuariob: dadosForm,
 collection: "acao",
 callback: function(err, result) {
+	// Preciso descobrir como executar está função aqui ( lembrando que ela será executada no dbConnection )
+	//this.updateMoedas();
+
 }
 };
 this._connection(dados, t1, t2);
+};
 
-}
 
 
 module.exports = function() {

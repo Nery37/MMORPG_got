@@ -7,7 +7,7 @@ module.exports.jogo = function (application, req, res){
 			msg = req.query.msg;
 		}
 
-		console.log(msg);
+		//console.log(msg);
 		var connection = application.config.dbConnection; 
 		var JogoDAO = new application.app.models.JogoDAO(connection, req, res);
 		JogoDAO.atribuirValores(req.session.usuario, msg, req, res);
@@ -34,17 +34,20 @@ module.exports.suditos = function (application, req, res){
 	
 
 module.exports.pergaminhos = function (application, req, res){
-		if(req.session.autorizado != true){
-		res.send('Usuario não foi autenticado');	
-		}
+	if(req.session.autorizado !== true){
+	       res.send('Usuário precisa fazer login');
+	       return;   
+	   }
 
-		var usuario = req.session.usuario;
-
-		var connection = application.config.dbConnection;
+	   /* recuperar as acoes inseridas no banco dedados */
+	   var connection = application.config.dbConnection;
 		var JogoDAO = new application.app.models.JogoDAO(connection, req, res);
 
+
+    	var usuario = req.session.usuario;
+
 		//console.log(usuario);
-		JogoDAO.recuperaAcao(usuario);
+		JogoDAO.recuperaAcao(usuario, res);
 
 	}
 
@@ -55,7 +58,7 @@ module.exports.ordernar_acao_sudito = function (application, req, res){
 
 
 	var dadosForm = req.body;
-	console.log(dadosForm);
+	//console.log(dadosForm);
 
 	req.assert('acao', 'A ação deve ser informada').notEmpty();
 	req.assert('quantidade', 'A quantidade deve ser informada').notEmpty();
@@ -67,13 +70,14 @@ module.exports.ordernar_acao_sudito = function (application, req, res){
 		// em caso de erro, estou redirecinando para a rota jogo, e atribuindo uma variavel na url com o valor "S" (va para o controller da rota ali em cima q vc vai entender.)
 		return;
 	}
-
+	var application = application;
 	dadosForm.usuario = req.session.usuario;
 
 	var connection = application.config.dbConnection;
 	var JogoDAO = new application.app.models.JogoDAO(connection, req, res);
 
-	JogoDAO.acao(dadosForm);
+	JogoDAO.acao(dadosForm, application);
+
 
 	res.redirect('jogo?msg=B');
 
